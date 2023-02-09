@@ -1,3 +1,5 @@
+import matplotlib.pyplot as plt
+from matplotlib.patches import Circle, Rectangle, Arc
 #functions to convert feet to cm
 def foot_to_cm(ft, inch):
        ft = int(ft)
@@ -7,6 +9,10 @@ def foot_to_cm(ft, inch):
        cm = round(inch * 2.54, 1)
 
        return cm
+#functions to convert lbs to kg
+def lbs_to_kg(lbs):
+       kg = lbs*0.453592
+       return kg
 
 #functions to create basketball court
 def create_court():
@@ -40,7 +46,7 @@ def create_court():
     ax.add_patch(Arc((892.5, 250), 15, 15, theta1=0, theta2=360)) #892.5, 0
     #ax.add_patch(Circle((470, 0), 60, facecolor='none', lw=2))
 
-    # Text for Team name
+    # Text for score, time and decsription
     ax.text(20, 520, "ATL" , 
            fontsize=16, fontweight='bold', label='home')
     ax.text(680, 520, "WAS", 
