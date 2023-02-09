@@ -10,8 +10,6 @@ path='NBA shot log 16-17-regular season/'
 
 folder='Shot data/'
 
-ATL = pd.read_csv(path+folder+'shot log ATL.csv')
-
 player_stats = pd.read_csv(path+'Player Regular 16-17 Stats.csv')
 
 player_stats['FullTeamName'] = player_stats['#Team City'] + ' ' + player_stats['#Team Name']
@@ -28,13 +26,13 @@ st.set_page_config(layout="wide")
 st.title('Shooting Score Analysis of NBA Players in regular season 2016-2017')
 
 with st.expander('About this app'):
-  st.write('This app shows the Shooting shot analysis of NBA players in regular season 2016-2017.')
+  st.write('This app shows the details and shooting position of NBA players in regular season 2016-2017.')
   st.image('https://pbs.twimg.com/profile_images/1392258537993211905/kYxkTjiE_400x400.jpg', width=200)
 
 st.sidebar.header('Input')
 #add select box to choose Team
 st.sidebar.subheader('NBA Team')
-nba_team = st.sidebar.selectbox('Choose an NBA Team to analyse:?', teams)
+nba_team = st.sidebar.selectbox('Choose a NBA Team to analyse?', teams)
 
 #add select box to choose player
 if(nba_team != ' '):
@@ -49,95 +47,122 @@ else:
 
 if(nba_team != ' ' and nba_player != ' '):
     st.header('Results')
-
+    #st.write(player_stats)
     #st.write(selected_team_players)
 
     fullname = str(nba_player)
 
-    index = selected_team_players.index(nba_player)
+    for index, row in player_stats.iterrows():
+        if row['FullName'] == fullname:
+            playerindex = index
     #st.write(index)
 
-    position = player_stats['#Position'][index]
-    age = int(player_stats['#Age'][index])
-    height = player_stats['#Height'][index]
-    weight = player_stats['#Weight'][index]
-    birth_city = player_stats['#Birth City'][index]
+    position = player_stats['#Position'][playerindex]
+    age = int(player_stats['#Age'][playerindex])
+    height = player_stats['#Height'][playerindex]
+    weight = player_stats['#Weight'][playerindex]
+    birth_city = player_stats['#Birth City'][playerindex]
     feet = height[0]
     inch = height[2]
 
     h_cm = foot_to_cm(feet, inch)
 
-    #st.write(feet)
-    #st.write(inch)
-    #st.write(type(feet))
+    kg = round(lbs_to_kg(weight),2)
+
+    total_games = player_stats['#GamesPlayed'][playerindex]
+    Fg2PtAtt = player_stats['#Fg2PtAtt'][playerindex]
+    Fg2PtMade = player_stats['#Fg2PtMade'][playerindex]
+    Fg3PtAtt = player_stats['#Fg3PtAtt'][playerindex]
+    Fg3PtMade = player_stats['#Fg3PtMade'][playerindex]
+    FtAtt = player_stats['#FtAtt'][playerindex]
+    FtMade = player_stats['#FtMade'][playerindex]
 
     #Player's personal details (Full name, postiion, age, height, weight, birth city)
     st.subheader("Player's Details")
 
-    # Show Player's image
+    col1, col2 = st.columns(2)
 
-    st.write("Full Name: "+fullname)
-    st.write("Position: "+position)
-    st.write("Age: ", age)
-    st.write("Height: "+height+"( ", h_cm, "cm)")
-    st.write("Weight: ", weight)
-    st.write("Birth City: "+birth_city)
-else:
-    st.write(' ')
+    with col1:
+        st.write("Full Name: "+fullname)
+        st.write("Position: "+position)
+        st.write("Age: ", age)
+        st.write("Height: "+height+"( ", h_cm, "cm)")
+        st.write("Weight: ", weight, 'lbs '+'(', kg, 'kg)')
+        st.write("Birth City: "+str(birth_city))
 
+    with col2:
+        # option = st.selectbox('What would you like to know?', 
+        # ['', 'Total Games Played', 
+        # 'Field Goal 2 Points Attempted', 'Field Goal 2 Points Made', 
+        # 'Field Goal 3 Points Attempted', 'Field Goal 3 Points Made', 
+        # 'Free Throw Attempted', 'Free Throw Made'])
 
-# col1, col2 = st.columns(2)
+        #if option == 'Total Games Played':
+            st.write('Total Games Played: ', total_games)
 
-# with col1:
-#   if nba_team != '':
-#     st.write(f' {nba_team}')
-#   else:
-#     st.write(' ')
+        #elif option == 'Field Goal 2 Points Attempted':
+            st.write('Field Goal 2 Points Attempted: ', Fg2PtAtt)
 
-# with col2:
-#   if nba_player != '':
-#     st.write(f'{nba_player}')
-#   else:
-#     st.write(' ')
+        #elif option == 'Field Goal 2 Points Made':
+            st.write('Field Goal 2 Points Made', Fg2PtMade)
+        
+        #elif option == 'Field Goal 3 Points Attempted':
+            st.write('Field Goal 3 Points Attempted', Fg3PtAtt)
 
-st.header('Data analysis')
-option = st.selectbox('What would you like to know?', 
-['', 'Highest Score in season 16-17', 'Favourite Position', 'Total Games Played', 
-'Field Goal 2 Points Attempted', 'Field Goal 2 Points Made', 
-'Field Goal 3 Points Attempted', 'Field Goal 3 Points Made', 
-'Free Throw Attempted', 'Free Throw Made'])
+        #elif option == 'Field Goal 3 Points Made':
+            st.write('Field Goal 3 Points Made', Fg3PtMade)
 
-option = st.selectbox('Match Overview', 
-['', 'Shooting Position in the match', 'Total Shots Attempted', 'Total Shots scored', 
-'Position that scored', 'Total Shots blocked', 
-'Total Shots missed'])
+        #elif option == 'Free Throw Attempted':
+            st.write('Free Throw Attempted', FtAtt)
 
-#Plot Basketball court
-#Total shots attempted
-#Total shots that scored
-#Show position that scored
-#Total shots that are blocked
-#Total shots that are missed
+        #elif option == 'Free Throw Made':
+            st.write('Free Throw Made', FtMade)
 
-# st.subheader('Comparison among NBA Team')
-# options = st.multiselect(
-#      'Choose 1 or more NBA Team to compare:',
-#      teams)
+    st.header('Data analysis')
 
-# st.write('You selected:', options)
+    #Get abbrevation of NBA team
+    abbreviation = pd.read_csv(path+'NBA team name vs abbreviation.csv')
+    #st.write(abbreviation)
 
-fig, ax = plt.subplots()
-player_stats.hist(
-    bins=8,
-    column="#Age",
-    grid=False,
-    figsize=(8, 8),
-    color="#86bf91",
-    zorder=2,
-    rwidth=0.9,
-    ax=ax,
-  )
-ax.set_title('Age of NBA players in regular season 2016-2017')
-st.write(fig)
+    for index, row in abbreviation.iterrows():
+        if row['Franchise'] == nba_team:
+            abbindex = index
+            break
 
+    #st.write(abbindex)
+    abb = abbreviation['Abbreviation/Acronym'][abbindex]
+    #st.write(abb)
+
+    selected_team = pd.read_csv(path+folder+'shot log '+abb+'.csv')
+    st.subheader('Description of the data from '+abb+' shot log')
+    st.write(selected_team.describe())
+    
+    selected_player_in_team = selected_team[(selected_team['shoot player'] == fullname)]
+    st.subheader("Shot log of "+fullname)
+
+    selected_player_in_team['shot_made'] = 0
+    selected_player_in_team['shot_made'] = selected_player_in_team['shot_made'].mask(selected_player_in_team['current shot outcome'] == 'SCORED', 1)
+
+    st.write(selected_player_in_team)
+    #Plot Basketball court
+    st.subheader('Shooting x and y coordinate in the basketball court')
+    fig, ax = create_court()
+    ax.scatter('location x', 'location y', c=selected_player_in_team.shot_made, marker='.', s=120,
+            lw=2, data=selected_player_in_team)
+    ax.legend()
+    st.write(fig)
+
+    fig, ax = plt.subplots()
+    player_stats.hist(
+        bins=8,
+        column="#Age",
+        grid=False,
+        figsize=(8, 8),
+        color="#86bf91",
+        zorder=2,
+        rwidth=0.9,
+        ax=ax,
+      )
+    ax.set_title('Age of NBA players in regular season 2016-2017')
+    st.write(fig)
 
