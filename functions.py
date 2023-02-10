@@ -13,9 +13,17 @@ def foot_to_cm(ft, inch):
 def lbs_to_kg(lbs):
        kg = lbs*0.453592
        return kg
+#functions to remove duplicates in the list
+def dedupe(items):
+       seen = set()
+       for item in items:
+              if item not in seen:
+                     yield item
+                     seen.add(item)
+       return(items)
 
 #functions to create basketball court
-def create_court():
+def create_court(playername):
     # Set-up figure
     fig = plt.figure(figsize=(16, 8))
     ax = fig.add_axes([.2, .1, .6, .8], frame_on=False, 
@@ -47,8 +55,8 @@ def create_court():
     #ax.add_patch(Circle((470, 0), 60, facecolor='none', lw=2))
 
     # Text for score, time and decsription
-    ax.text(20, 520, "ATL" , 
-           fontsize=16, fontweight='bold', label='home')
-    ax.text(680, 520, "WAS", 
-           fontsize=16, fontweight='bold', label='away')
+    ax.text(20, 520, playername, 
+           fontsize=16, fontweight='bold', label='playername')
+    #ax.text(680, 520, "WAS", 
+    #       fontsize=16, fontweight='bold', label='away')
     return fig, ax
