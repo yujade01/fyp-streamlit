@@ -2,7 +2,7 @@ import streamlit as st
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
-from functions import foot_to_cm, lbs_to_kg, create_court
+from functions import *
 import time
 
 ######################      Read from CSV files   ###############################################
@@ -15,6 +15,9 @@ player_stats = pd.read_csv(path+'Player Regular 16-17 Stats.csv')
 player_stats['FullTeamName'] = player_stats['#Team City'] + ' ' + player_stats['#Team Name']
 
 teams = player_stats['FullTeamName'].to_list()
+
+teams = list(dedupe(teams))
+
 teams.insert(0, " ")
 
 player_stats['FullName'] = player_stats['#FirstName'] + ' ' + player_stats['#LastName']
@@ -134,35 +137,20 @@ if(nba_team != ' ' and nba_player != ' '):
     #st.write(abb)
 
     selected_team = pd.read_csv(path+folder+'shot log '+abb+'.csv')
-    st.subheader('Description of the data from '+abb+' shot log')
-    st.write(selected_team.describe())
+    #st.subheader('Description of the data from '+abb+' shot log')
+    #st.write(selected_team.describe())
     
     selected_player_in_team = selected_team[(selected_team['shoot player'] == fullname)]
     st.subheader("Shot log of "+fullname)
 
-    selected_player_in_team['shot_made'] = 0
-    selected_player_in_team['shot_made'] = selected_player_in_team['shot_made'].mask(selected_player_in_team['current shot outcome'] == 'SCORED', 1)
+    #selected_player_in_team['shot_made'] = 0
+    #selected_player_in_team['shot_made'] = selected_player_in_team['shot_made'].mask(selected_player_in_team['current shot outcome'] == 'SCORED', 1)
 
     st.write(selected_player_in_team)
     #Plot Basketball court
     st.subheader('Shooting x and y coordinate in the basketball court')
-    fig, ax = create_court()
-    ax.scatter('location x', 'location y', c=selected_player_in_team.shot_made, marker='.', s=120,
+    fig, ax = create_court(fullname)
+    ax.scatter('location x', 'location y', marker='.', s=120,
             lw=2, data=selected_player_in_team)
-    ax.legend()
+    #c=selected_player_in_team.shot_made  
     st.write(fig)
-
-    fig, ax = plt.subplots()
-    player_stats.hist(
-        bins=8,
-        column="#Age",
-        grid=False,
-        figsize=(8, 8),
-        color="#86bf91",
-        zorder=2,
-        rwidth=0.9,
-        ax=ax,
-      )
-    ax.set_title('Age of NBA players in regular season 2016-2017')
-    st.write(fig)
-
