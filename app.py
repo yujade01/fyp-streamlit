@@ -2,7 +2,7 @@ import streamlit as st
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
-from functions import *
+from functions import foot_to_cm, lbs_to_kg, dedupe, create_court
 import time
 
 ######################      Read from CSV files   ###############################################
