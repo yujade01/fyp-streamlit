@@ -2,7 +2,7 @@ import streamlit as st
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
-from functions import foot_to_cm, lbs_to_kg, dedupe, create_court
+import functions
 import time
 
 ######################      Read from CSV files   ###############################################
@@ -16,7 +16,7 @@ player_stats['FullTeamName'] = player_stats['#Team City'] + ' ' + player_stats['
 
 teams = player_stats['FullTeamName'].to_list()
 
-teams = list(dedupe(teams))
+teams = list(functions.dedupe(teams))
 
 teams.insert(0, " ")
 
@@ -68,9 +68,9 @@ if(nba_team != ' ' and nba_player != ' '):
     feet = height[0]
     inch = height[2]
 
-    h_cm = foot_to_cm(feet, inch)
+    h_cm = functions.foot_to_cm(feet, inch)
 
-    kg = round(lbs_to_kg(weight),2)
+    kg = round(functions.lbs_to_kg(weight),2)
 
     total_games = player_stats['#GamesPlayed'][playerindex]
     Fg2PtAtt = player_stats['#Fg2PtAtt'][playerindex]
@@ -149,8 +149,9 @@ if(nba_team != ' ' and nba_player != ' '):
     st.write(selected_player_in_team)
     #Plot Basketball court
     st.subheader('Shooting x and y coordinate in the basketball court')
-    fig, ax = create_court(fullname)
+    fig, ax = functions.create_court(fullname)
     ax.scatter('location x', 'location y', marker='.', s=120,
             lw=2, data=selected_player_in_team)
     #c=selected_player_in_team.shot_made  
     st.write(fig)
+
