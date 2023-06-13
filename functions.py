@@ -1,12 +1,17 @@
 import matplotlib.pyplot as plt
 from matplotlib.patches import Circle, Rectangle, Arc
+
+#functions to round up numbers
+def round_up(a, b = 1):
+       return -(-a // b) 
+
 #functions to convert feet to cm
 def foot_to_cm(ft, inch):
        ft = int(ft)
        inch = int(inch)
 
        inch += ft * 12
-       cm = round(inch * 2.54, 1)
+       cm = round_up(inch * 2.54, 1)
 
        return cm
 #functions to convert lbs to kg
@@ -41,22 +46,20 @@ def create_court(playername):
     
     # Add the three point arc, free throw circle, 
     # midcourt circle and backboard and rim
-    ax.add_patch(Arc((190,250), 120, 120, theta1=-90, theta2=90))
-    ax.add_patch(Arc((190, 250), 120, 120, theta1=90, theta2=-90))
-    ax.add_patch(Arc((750, 250), 120, 120, theta1=90, theta2=-90))
-    ax.add_patch(Arc((750, 250), 120, 120, theta1=-90, theta2=90))
+    ax.add_patch(Arc((190,250), 120, 120, theta1=-90, theta2=90, color="blue"))
+    ax.add_patch(Arc((190, 250), 120, 120, theta1=90, theta2=-90, color="blue"))
+    ax.add_patch(Arc((750, 250), 120, 120, theta1=90, theta2=-90, color="blue"))
+    ax.add_patch(Arc((750, 250), 120, 120, theta1=-90, theta2=90, color="blue"))
     ax.hlines([30, 30, 470, 470], [0, 800] * 2, [140, 940] * 2)
     ax.add_patch(Arc((892.5, 250), 475, 475, theta1=112.5, #892.5, 0
-                        theta2=-112.5))
+                        theta2=-112.5, color="blue"))
     ax.add_patch(Arc((52, 250), 475, 475, theta1=-68.5, #52, 0
-                        theta2=68.5))
-    ax.add_patch(Arc((47.5, 250), 15, 15, theta1=0, theta2=360)) # 47.5, 0
-    ax.add_patch(Arc((892.5, 250), 15, 15, theta1=0, theta2=360)) #892.5, 0
+                        theta2=68.5, color="blue"))
+    ax.add_patch(Arc((47.5, 250), 15, 15, theta1=0, theta2=360, color="blue")) # 47.5, 0
+    ax.add_patch(Arc((892.5, 250), 15, 15, theta1=0, theta2=360, color="blue")) #892.5, 0
     #ax.add_patch(Circle((470, 0), 60, facecolor='none', lw=2))
 
     # Text for score, time and decsription
     ax.text(20, 520, playername, 
            fontsize=16, fontweight='bold', label='playername')
-    #ax.text(680, 520, "WAS", 
-    #       fontsize=16, fontweight='bold', label='away')
     return fig, ax

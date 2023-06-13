@@ -4,7 +4,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import functions
 import time
-
+from PIL import Image
 ######################      Read from CSV files   ###############################################
 path='NBA shot log 16-17-regular season/'
 
@@ -15,10 +15,13 @@ player_stats = pd.read_csv(path+'Player Regular 16-17 Stats.csv')
 player_stats['FullTeamName'] = player_stats['#Team City'] + ' ' + player_stats['#Team Name']
 
 teams = player_stats['FullTeamName'].to_list()
+#positions = player_stats['#Position'].to_list()
 
 teams = list(functions.dedupe(teams))
+#positions = list(functions.dedupe(positions))
 
 teams.insert(0, " ")
+#positions.insert(0, " ")
 
 player_stats['FullName'] = player_stats['#FirstName'] + ' ' + player_stats['#LastName']
 
@@ -26,13 +29,13 @@ player_stats['FullName'] = player_stats['#FirstName'] + ' ' + player_stats['#Las
 
 st.set_page_config(layout="wide")
 
-st.title('Shooting Score Analysis of NBA Players in regular season 2016-2017')
+st.title('Basketball Shooting Score Analysis of NBA Players in regular season 2016-2017')
 
 with st.expander('About this app'):
   st.write('This app shows the details and shooting position of NBA players in regular season 2016-2017.')
   st.image('https://pbs.twimg.com/profile_images/1392258537993211905/kYxkTjiE_400x400.jpg', width=200)
 
-st.sidebar.header('Input')
+st.sidebar.header('Final Year Project')
 #add select box to choose Team
 st.sidebar.subheader('NBA Team')
 nba_team = st.sidebar.selectbox('Choose a NBA Team to analyse?', teams)
@@ -43,9 +46,13 @@ if(nba_team != ' '):
     selected_team_players = players['FullName'].to_list()
     selected_team_players.insert(0, " ")
 
+    # st.sidebar.subheader('Player Position')
+    # player_position = st.sidebar.selectbox('Choose a player position', positions)
+
     st.sidebar.subheader('NBA player')
-    nba_player = st.sidebar.selectbox('Choose a basketball player', selected_team_players)
+    nba_player = st.sidebar.selectbox('Choose a NBA basketball player', selected_team_players)
 else:
+
     st.sidebar.write('Please select NBA Team')
 
 if(nba_team != ' ' and nba_player != ' '):
@@ -63,13 +70,18 @@ if(nba_team != ' ' and nba_player != ' '):
     position = player_stats['#Position'][playerindex]
     age = int(player_stats['#Age'][playerindex])
     height = player_stats['#Height'][playerindex]
-    weight = player_stats['#Weight'][playerindex]
-    birth_city = player_stats['#Birth City'][playerindex]
+    length = len(height)
     feet = height[0]
-    inch = height[2]
+    #inch = height[2]
+    if len(height) == 5:
+        inch = height[2] + height[3]
+    elif len(height) == 4:
+        inch = height[2]
 
     h_cm = functions.foot_to_cm(feet, inch)
 
+    weight = player_stats['#Weight'][playerindex]
+    birth_city = player_stats['#Birth City'][playerindex]
     kg = round(functions.lbs_to_kg(weight),2)
 
     total_games = player_stats['#GamesPlayed'][playerindex]
@@ -79,7 +91,17 @@ if(nba_team != ' ' and nba_player != ' '):
     Fg3PtMade = player_stats['#Fg3PtMade'][playerindex]
     FtAtt = player_stats['#FtAtt'][playerindex]
     FtMade = player_stats['#FtMade'][playerindex]
+    
+    
+    #Player's image
+    st.subheader(fullname)
+    #image = Image.open('player_images/Nikola Jokic.jpg')
+    img_folder = 'player_images/'
+    img_extension = '.jpg'
+    image = Image.open(img_folder + fullname + img_extension)
 
+    st.image(image, width=300)
+    
     #Player's personal details (Full name, postiion, age, height, weight, birth city)
     st.subheader("Player's Details")
 
@@ -143,15 +165,24 @@ if(nba_team != ' ' and nba_player != ' '):
     selected_player_in_team = selected_team[(selected_team['shoot player'] == fullname)]
     st.subheader("Shot log of "+fullname)
 
-    #selected_player_in_team['shot_made'] = 0
+    #FGM = Field Goal Made 0 - MISSED, 1 - SCORED
+    selected_player_in_team['FGM'] = np.where(selected_player_in_team['current shot outcome'] == 'SCORED', '1', '0')
+
+    #selected_player_in_team['shot_made'] = selected_player_in_team['shot_made'].mask(selected_player_in_team['current shot outcome'] == 'MISSED', 0)
     #selected_player_in_team['shot_made'] = selected_player_in_team['shot_made'].mask(selected_player_in_team['current shot outcome'] == 'SCORED', 1)
 
     st.write(selected_player_in_team)
+
+    st.header('Data Visualization')
     #Plot Basketball court
-    st.subheader('Shooting x and y coordinate in the basketball court')
+    st.subheader('Shooting position in the basketball court')
+    st.write("SCORED - Blue dot")
+    st.write("MISSED - Red dot")
     fig, ax = functions.create_court(fullname)
-    ax.scatter('location x', 'location y', marker='.', s=120,
-            lw=2, data=selected_player_in_team)
-    #c=selected_player_in_team.shot_made  
+    fig.patch.set_facecolor('xkcd:black')
+
+    colors = {'0': 'red', '1': 'blue'}
+    ax.scatter('location x', 'location y', c=selected_player_in_team['FGM'].map(colors), marker='o', s=100,
+    lw=2, data=selected_player_in_team)
     st.write(fig)
 
