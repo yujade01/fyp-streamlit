@@ -29,13 +29,40 @@ player_stats['FullName'] = player_stats['#FirstName'] + ' ' + player_stats['#Las
 
 st.set_page_config(layout="wide")
 
-st.title('Basketball Shooting Score Analysis of NBA Players in regular season 2016-2017')
+#st.title('Basketball Shooting Score Analysis of NBA Players in regular season 2016-2017')
+st.markdown(f'<h1 style="color:red;">{"Basketball Shooting Score Analysis of NBA Players in regular season 2016-2017"}</h1>', unsafe_allow_html=True)
 
 with st.expander('About this app'):
-  st.write('This app shows the information and shooting position of NBA players in regular season 2016-2017.')
-  st.image('https://pbs.twimg.com/profile_images/1392258537993211905/kYxkTjiE_400x400.jpg', width=200)
+    st.write('This app shows the information and shooting position of NBA players in regular season 2016-2017.')
+    st.image('https://pbs.twimg.com/profile_images/1392258537993211905/kYxkTjiE_400x400.jpg', width=200)
+    
+with st.expander('Five Main Roles in NBA Basketball'):
+    st.write("""**Point Guard**: Often referred to as the **floor general**, 
+            is typically the team's **primary ball-handler and playmaker**. They are responsible 
+            for initiating the **team's offense**, setting up plays, and distributing the ball to their teammates. 
+            Point guards are **skilled in dribbling, passing, and court vision**.""")
+    st.write("""**Shooting Guard**: Also known as the off-guard or two-guard, is primarily 
+            responsible for **scoring points**. They are usually an **excellent shooter from mid-range** and beyond the 
+            three-point line. Shooting guards are often off-ball players, meaning they move without the ball to 
+            get open for shots or cuts to the basket. They should have **good shooting accuracy**, the ability to 
+            create their own shot.""")
+    st.write("""**Small Forward**: Also known as the three, is a **versatile player** who can 
+            contribute in various aspects of the game. They are often a **combination of a shooting guard and a 
+            power forward**. Small forwards should possess a mix of **scoring ability, ball-handling skills**, 
+            and **defensive prowess**. They can play inside the paint, **drive to the basket, shoot from mid-range**, 
+            and even hit **three-pointers**.""")
+    st.write("""**Power Forward**: Often referred to as the four, is typically a **strong and physical player** who 
+            excels in both scoring and rebounding. They are skilled in scoring from close to the basket and 
+            **mid-range jump shots**. Power forwards are responsible for **grabbing rebounds** on both ends of the 
+            court, defending the paint, and setting screens to **create scoring opportunities** for their 
+            teammates.""")
+    st.write("""**Center**: Also known as the five or **big man**, is usually the **tallest player** on the team and plays close 
+            to the basket. They are responsible for **rebounding, shot-blocking**, and defending the paint. 
+            Centers often **score through dunks, layups, and close-range shots**. They also set screens, 
+            roll to the basket for scoring opportunities, and protect the rim on defense.""")
 
-st.sidebar.header('Final Year Project')
+
+st.sidebar.markdown(f'<h2 style="color:red;">{"Final Year Project"}</h2>', unsafe_allow_html=True)
 #add select box to choose Team
 st.sidebar.subheader('NBA Team')
 nba_team = st.sidebar.selectbox('Choose a NBA Team to analyse?', teams)
