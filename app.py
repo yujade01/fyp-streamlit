@@ -32,7 +32,7 @@ st.set_page_config(layout="wide")
 st.title('Basketball Shooting Score Analysis of NBA Players in regular season 2016-2017')
 
 with st.expander('About this app'):
-  st.write('This app shows the details and shooting position of NBA players in regular season 2016-2017.')
+  st.write('This app shows the information and shooting position of NBA players in regular season 2016-2017.')
   st.image('https://pbs.twimg.com/profile_images/1392258537993211905/kYxkTjiE_400x400.jpg', width=200)
 
 st.sidebar.header('Final Year Project')
@@ -52,11 +52,48 @@ if(nba_team != ' '):
     st.sidebar.subheader('NBA player')
     nba_player = st.sidebar.selectbox('Choose a NBA basketball player', selected_team_players)
 else:
-
     st.sidebar.write('Please select NBA Team')
 
+    #Figure's image
+    figure_folder = 'figure_images/'
+    img_extension = '.jpg'
+    fig1 = Image.open(figure_folder + 'histogram_of_features' + img_extension)
+    fig2 = Image.open(figure_folder + 'age_distribution' + img_extension)
+    fig3 = Image.open(figure_folder + 'barplot_favourite_shot_type' + img_extension)
+    fig4 = Image.open(figure_folder + 'boxplot_age_position' + img_extension)
+    fig5 = Image.open(figure_folder + 'boxplot_height_position' + img_extension)
+    fig6 = Image.open(figure_folder + 'histogram_shot_distance' + img_extension)
+    fig7 = Image.open(figure_folder + 'histogram_overall_percentage' + img_extension)
+    fig8 = Image.open(figure_folder + 'shot_count' + img_extension)
+    fig9 = Image.open(figure_folder + 'heatmap' + img_extension)
+
+    st.header('Exploratory Data Analysis (EDA)')
+    st.subheader('Top 10 Point Guards with the Highest Field Goal Percentange in NBA regular season 16-17')
+
+    top10pg = pd.read_csv("TOP10PG.csv")
+    st.write(top10pg)
+    st.write("*** Only NBA players more than 40% Field Goal Percentage and Field Goal Attempted more than 1000 shots***")
+    st.subheader('Features Distribution')
+    st.image(fig1, width=500)
+    st.subheader('Age Distribution of NBA Players')
+    st.image(fig2, width=500)
+    st.subheader('Shot type count of NBA Players')
+    st.image(fig3, width=500)
+    st.subheader('Boxplot of Age according to position of NBA Players')
+    st.image(fig4, width=500)
+    st.subheader('Boxplot of Height according to position of NBA Players')
+    st.image(fig5, width=500)
+    st.subheader('Histogram of Shot Distance')
+    st.image(fig6, width=500)
+    st.subheader('Histogram of Overall Percentage of Point Guards')
+    st.image(fig7, width=500)
+    st.subheader('Shot count by distance based on 1000 sample data')
+    st.image(fig8, width=500)
+    st.subheader('Heatmap - Correlation between features')
+    st.image(fig9, width=500)
+
 if(nba_team != ' ' and nba_player != ' '):
-    st.header('Results')
+    st.subheader('Results')
     #st.write(player_stats)
     #st.write(selected_team_players)
 
@@ -98,7 +135,6 @@ if(nba_team != ' ' and nba_player != ' '):
     
     #Player's image
     st.subheader(fullname)
-    #image = Image.open('player_images/Nikola Jokic.jpg')
     img_folder = 'player_images/'
     img_extension = '.jpg'
     image = Image.open(img_folder + fullname + img_extension)
