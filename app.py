@@ -37,26 +37,26 @@ with st.expander('About this app'):
     st.image('https://pbs.twimg.com/profile_images/1392258537993211905/kYxkTjiE_400x400.jpg', width=200)
     
 with st.expander('Five Main Roles in NBA Basketball'):
-    st.write("""**Point Guard**: Often referred to as the **floor general**, 
+    st.write("""1. **Point Guard**: Often referred to as the **floor general**, 
             is typically the team's **primary ball-handler and playmaker**. They are responsible 
             for initiating the **team's offense**, setting up plays, and distributing the ball to their teammates. 
             Point guards are **skilled in dribbling, passing, and court vision**.""")
-    st.write("""**Shooting Guard**: Also known as the off-guard or two-guard, is primarily 
+    st.write("""2. **Shooting Guard**: Also known as the off-guard or two-guard, is primarily 
             responsible for **scoring points**. They are usually an **excellent shooter from mid-range** and beyond the 
             three-point line. Shooting guards are often off-ball players, meaning they move without the ball to 
             get open for shots or cuts to the basket. They should have **good shooting accuracy**, the ability to 
             create their own shot.""")
-    st.write("""**Small Forward**: Also known as the three, is a **versatile player** who can 
+    st.write("""3. **Small Forward**: Also known as the three, is a **versatile player** who can 
             contribute in various aspects of the game. They are often a **combination of a shooting guard and a 
             power forward**. Small forwards should possess a mix of **scoring ability, ball-handling skills**, 
             and **defensive prowess**. They can play inside the paint, **drive to the basket, shoot from mid-range**, 
             and even hit **three-pointers**.""")
-    st.write("""**Power Forward**: Often referred to as the four, is typically a **strong and physical player** who 
+    st.write("""4. **Power Forward**: Often referred to as the four, is typically a **strong and physical player** who 
             excels in both scoring and rebounding. They are skilled in scoring from close to the basket and 
             **mid-range jump shots**. Power forwards are responsible for **grabbing rebounds** on both ends of the 
             court, defending the paint, and setting screens to **create scoring opportunities** for their 
             teammates.""")
-    st.write("""**Center**: Also known as the five or **big man**, is usually the **tallest player** on the team and plays close 
+    st.write("""5. **Center**: Also known as the five or **big man**, is usually the **tallest player** on the team and plays close 
             to the basket. They are responsible for **rebounding, shot-blocking**, and defending the paint. 
             Centers often **score through dunks, layups, and close-range shots**. They also set screens, 
             roll to the basket for scoring opportunities, and protect the rim on defense.""")
@@ -84,15 +84,14 @@ else:
     #Figure's image
     figure_folder = 'figure_images/'
     img_extension = '.jpg'
-    fig1 = Image.open(figure_folder + 'histogram_of_features' + img_extension)
-    fig2 = Image.open(figure_folder + 'age_distribution' + img_extension)
-    fig3 = Image.open(figure_folder + 'barplot_favourite_shot_type' + img_extension)
-    fig4 = Image.open(figure_folder + 'boxplot_age_position' + img_extension)
-    fig5 = Image.open(figure_folder + 'boxplot_height_position' + img_extension)
-    fig6 = Image.open(figure_folder + 'histogram_shot_distance' + img_extension)
-    fig7 = Image.open(figure_folder + 'histogram_overall_percentage' + img_extension)
-    fig8 = Image.open(figure_folder + 'shot_count' + img_extension)
-    fig9 = Image.open(figure_folder + 'heatmap' + img_extension)
+    fig1 = Image.open(figure_folder + 'age_distribution' + img_extension)
+    fig2 = Image.open(figure_folder + 'barplot_favourite_shot_type' + img_extension)
+    fig3 = Image.open(figure_folder + 'boxplot_age_position' + img_extension)
+    fig4 = Image.open(figure_folder + 'boxplot_height_position' + img_extension)
+    fig5 = Image.open(figure_folder + 'histogram_shot_distance' + img_extension)
+    fig6 = Image.open(figure_folder + 'histogram_overall_percentage' + img_extension)
+    fig7 = Image.open(figure_folder + 'shot_count' + img_extension)
+    fig8 = Image.open(figure_folder + 'heatmap' + img_extension)
 
     st.header('Exploratory Data Analysis (EDA)')
     st.subheader('Top 10 Point Guards with the Highest Field Goal Percentange in NBA regular season 16-17')
@@ -100,24 +99,23 @@ else:
     top10pg = pd.read_csv("TOP10PG.csv")
     st.write(top10pg)
     st.write("*** Only NBA players more than 40% Field Goal Percentage and Field Goal Attempted more than 1000 shots***")
-    st.subheader('Features Distribution')
-    st.image(fig1, width=500)
+
     st.subheader('Age Distribution of NBA Players')
-    st.image(fig2, width=500)
+    st.image(fig1, width=500)
     st.subheader('Shot type count of NBA Players')
-    st.image(fig3, width=500)
+    st.image(fig2, width=500)
     st.subheader('Boxplot of Age according to position of NBA Players')
-    st.image(fig4, width=500)
+    st.image(fig3, width=500)
     st.subheader('Boxplot of Height according to position of NBA Players')
-    st.image(fig5, width=500)
+    st.image(fig4, width=500)
     st.subheader('Histogram of Shot Distance')
-    st.image(fig6, width=500)
+    st.image(fig5, width=500)
     st.subheader('Histogram of Overall Percentage of Point Guards')
-    st.image(fig7, width=500)
+    st.image(fig6, width=500)
     st.subheader('Shot count by distance based on 1000 sample data')
-    st.image(fig8, width=500)
+    st.image(fig7, width=500)
     st.subheader('Heatmap - Correlation between features')
-    st.image(fig9, width=500)
+    st.image(fig8, width=500)
 
 if(nba_team != ' ' and nba_player != ' '):
     st.subheader('Results')
