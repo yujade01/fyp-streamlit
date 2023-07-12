@@ -89,33 +89,59 @@ else:
     fig3 = Image.open(figure_folder + 'boxplot_age_position' + img_extension)
     fig4 = Image.open(figure_folder + 'boxplot_height_position' + img_extension)
     fig5 = Image.open(figure_folder + 'histogram_shot_distance' + img_extension)
-    fig6 = Image.open(figure_folder + 'histogram_overall_percentage' + img_extension)
-    fig7 = Image.open(figure_folder + 'shot_count' + img_extension)
-    fig8 = Image.open(figure_folder + 'heatmap' + img_extension)
+    fig6 = Image.open(figure_folder + 'shot_count' + img_extension)
+    fig7 = Image.open(figure_folder + 'heatmap' + img_extension)
 
     st.header('Exploratory Data Analysis (EDA)')
-    st.subheader('Top 10 Point Guards with the Highest Field Goal Percentange in NBA regular season 16-17')
-
     top10pg = pd.read_csv("TOP10PG.csv")
+    top9sg = pd.read_csv("TOP9SG.csv")
+    top8sf = pd.read_csv("TOP8SF.csv")
+    top3pf = pd.read_csv("TOP3PF.csv")
+    top5c = pd.read_csv("TOP5Center.csv")
+
+    st.subheader('Top 10 Point Guards with the Highest Field Goal Percentange')
     st.write(top10pg)
+
+    st.subheader('Top 9 Shooting Guards with the Highest Field Goal Percentange')
+    st.write(top9sg)
+
+    st.subheader('Top 10 Small Forwards with the Highest Field Goal Percentange')
+    st.write(top8sf)
+
+    st.subheader('Top 10 Power Forwards with the Highest Field Goal Percentange ')
+    st.write(top3pf)
+
+    st.subheader('Top 10 Centers with the Highest Field Goal Percentange')
+    st.write(top5c)
+
     st.write("*** Only NBA players more than 40% Field Goal Percentage and Field Goal Attempted more than 1000 shots***")
 
-    st.subheader('Age Distribution of NBA Players')
-    st.image(fig1, width=500)
-    st.subheader('Shot type count of NBA Players')
-    st.image(fig2, width=500)
-    st.subheader('Boxplot of Age according to position of NBA Players')
-    st.image(fig3, width=500)
-    st.subheader('Boxplot of Height according to position of NBA Players')
-    st.image(fig4, width=500)
-    st.subheader('Histogram of Shot Distance')
-    st.image(fig5, width=500)
-    st.subheader('Histogram of Overall Percentage of Point Guards')
-    st.image(fig6, width=500)
-    st.subheader('Shot count by distance based on 1000 sample data')
-    st.image(fig7, width=500)
+    col1, col2 = st.columns(2)
+    with col1:
+        st.subheader('Age Distribution of NBA Players')
+        st.image(fig1, width=500)
+    with col2:
+        st.subheader('Shot type count of NBA Players')
+        st.image(fig2, width=400)
+
+    col1, col2 = st.columns(2)
+    with col1:
+        st.subheader('Boxplot of Age according to position of NBA Players')
+        st.image(fig3, width=500)
+    with col2:
+        st.subheader('Boxplot of Height according to position of NBA Players')
+        st.image(fig4, width=500)
+
+    col1, col2 = st.columns(2)
+    with col1:
+        st.subheader('Histogram of Shot Distance')
+        st.image(fig5, width=500)
+    with col2:
+        st.subheader('Shot count by distance based on 1000 sample data')
+        st.image(fig6, width=500)
+
     st.subheader('Heatmap - Correlation between features')
-    st.image(fig8, width=500)
+    st.image(fig7, width=500)
 
 if(nba_team != ' ' and nba_player != ' '):
     st.subheader('Results')
