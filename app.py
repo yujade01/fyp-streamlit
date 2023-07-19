@@ -105,13 +105,13 @@ else:
     st.subheader('Top 9 Shooting Guards with the Highest Field Goal Percentange')
     st.write(top9sg)
 
-    st.subheader('Top 10 Small Forwards with the Highest Field Goal Percentange')
+    st.subheader('Top 8 Small Forwards with the Highest Field Goal Percentange')
     st.write(top8sf)
 
-    st.subheader('Top 10 Power Forwards with the Highest Field Goal Percentange ')
+    st.subheader('Top 3 Power Forwards with the Highest Field Goal Percentange ')
     st.write(top3pf)
 
-    st.subheader('Top 10 Centers with the Highest Field Goal Percentange')
+    st.subheader('Top 5 Centers with the Highest Field Goal Percentange')
     st.write(top5c)
 
     st.write("*** Only NBA players more than 40% Field Goal Percentage and Field Goal Attempted more than 1000 shots***")
@@ -206,31 +206,19 @@ if(nba_team != ' ' and nba_player != ' '):
         st.write("Birth City: "+str(birth_city))
 
     with col2:
-        # option = st.selectbox('What would you like to know?', 
-        # ['', 'Total Games Played', 
-        # 'Field Goal 2 Points Attempted', 'Field Goal 2 Points Made', 
-        # 'Field Goal 3 Points Attempted', 'Field Goal 3 Points Made', 
-        # 'Free Throw Attempted', 'Free Throw Made'])
 
-        #if option == 'Total Games Played':
             st.write('Total Games Played: ', total_games)
 
-        #elif option == 'Field Goal 2 Points Attempted':
             st.write('Field Goal 2 Points Attempted: ', Fg2PtAtt)
 
-        #elif option == 'Field Goal 2 Points Made':
             st.write('Field Goal 2 Points Made', Fg2PtMade)
         
-        #elif option == 'Field Goal 3 Points Attempted':
             st.write('Field Goal 3 Points Attempted', Fg3PtAtt)
 
-        #elif option == 'Field Goal 3 Points Made':
             st.write('Field Goal 3 Points Made', Fg3PtMade)
 
-        #elif option == 'Free Throw Attempted':
             st.write('Free Throw Attempted', FtAtt)
 
-        #elif option == 'Free Throw Made':
             st.write('Free Throw Made', FtMade)
 
     st.header('Data analysis')
@@ -261,9 +249,6 @@ if(nba_team != ' ' and nba_player != ' '):
 
     #FGM = Field Goal Made 0 - MISSED, 1 - SCORED
     selected_player_in_team['FGM'] = np.where(selected_player_in_team['current shot outcome'] == 'SCORED', '1', '0')
-
-    #selected_player_in_team['shot_made'] = selected_player_in_team['shot_made'].mask(selected_player_in_team['current shot outcome'] == 'MISSED', 0)
-    #selected_player_in_team['shot_made'] = selected_player_in_team['shot_made'].mask(selected_player_in_team['current shot outcome'] == 'SCORED', 1)
 
     st.write(selected_player_in_team)
 
